@@ -1,0 +1,26 @@
+.container {
+    display: flex;
+    gap: 1.5rem;
+    padding-top: 1.5rem;
+    padding-bottom: 0;
+    /* Centered or left aligned depending on page flow */
+}
+
+.link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    color: var(--foreground);
+    transition: all 0.3s ease;
+    /* Glass effect handled by global .glass */
+}
+
+.link:hover {
+    color: var(--highlight);
+    transform: scale(1.1);
+    /* Blue glow hint */
+    box-shadow: 0 8px 32px rgba(31, 135, 250, 0.2), inset 0 4px 20px rgba(255, 255, 255, 0.5);
+}
