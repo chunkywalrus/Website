@@ -31,9 +31,9 @@ export default function Cursor() {
                 borderRadius: "50%",
 
                 // Orange Liquid Glass Effect
-                background: "rgba(238, 191, 91, 0.35)",
-                backdropFilter: "blur(8px) saturate(120%)",
-                WebkitBackdropFilter: "blur(8px) saturate(120%)",
+                background: "rgba(238, 191, 91, 0.2)", // More transparent
+                backdropFilter: "blur(0px) saturate(180%)",
+                WebkitBackdropFilter: "blur(0px) saturate(180%)",
                 border: "1px solid rgba(255, 255, 255, 0.4)",
                 boxShadow: "inset 0 0 12px rgba(255, 255, 255, 0.3), 0 4px 12px rgba(238, 191, 91, 0.3)",
 
