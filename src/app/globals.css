@@ -29,6 +29,15 @@ body {
   /* Navbar has 2rem top padding + approx 3rem height + 3rem bottom padding space = ~8rem total visual block if fully reserved */
   /* But strictly textual content usually starts a bit later. Let's try 6rem to be safe. */
   padding-top: 6rem;
+  cursor: none !important;
+}
+
+html,
+body,
+*,
+a,
+button {
+  cursor: none !important;
 }
 
 /* Typography Overrides */
