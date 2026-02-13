@@ -1,15 +1,11 @@
 "use client";
 
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import { motion, useMotionValue } from "framer-motion";
 import { useEffect } from "react";
 
 export default function Cursor() {
     const cursorX = useMotionValue(-100);
     const cursorY = useMotionValue(-100);
-
-    const springConfig = { damping: 50, stiffness: 1000 };
-    const cursorXSpring = useSpring(cursorX, springConfig);
-    const cursorYSpring = useSpring(cursorY, springConfig);
 
     useEffect(() => {
         const moveCursor = (e: MouseEvent) => {
@@ -33,11 +29,18 @@ export default function Cursor() {
                 width: "20px",
                 height: "20px",
                 borderRadius: "50%",
-                backgroundColor: "var(--highlight)", // Orange from globals
+
+                // Orange Liquid Glass Effect
+                background: "rgba(238, 191, 91, 0.35)",
+                backdropFilter: "blur(8px) saturate(120%)",
+                WebkitBackdropFilter: "blur(8px) saturate(120%)",
+                border: "1px solid rgba(255, 255, 255, 0.4)",
+                boxShadow: "inset 0 0 12px rgba(255, 255, 255, 0.3), 0 4px 12px rgba(238, 191, 91, 0.3)",
+
                 pointerEvents: "none",
                 zIndex: 9999,
-                translateX: cursorXSpring,
-                translateY: cursorYSpring,
+                translateX: cursorX,
+                translateY: cursorY,
             }}
         />
     );
