@@ -51,6 +51,29 @@ export default function Navbar() {
                     );
                 })}
             </nav>
+
+            {/* SVG Filter for Liquid Distortion */}
+            <svg style={{ position: "absolute", width: 0, height: 0, pointerEvents: "none" }}>
+                <defs>
+                    <filter id="liquid-glass-distortion">
+                        <feTurbulence
+                            type="fractalNoise"
+                            baseFrequency="0.02 0.05"
+                            numOctaves="2"
+                            result="noise"
+                            seed="1"
+                        >
+                            <animate
+                                attributeName="baseFrequency"
+                                values="0.02 0.05; 0.03 0.07; 0.02 0.05"
+                                dur="10s"
+                                repeatCount="indefinite"
+                            />
+                        </feTurbulence>
+                        <feDisplacementMap in="SourceGraphic" in2="noise" scale="15" xChannelSelector="R" yChannelSelector="G" />
+                    </filter>
+                </defs>
+            </svg>
         </div>
     );
 }
