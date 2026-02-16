@@ -48,11 +48,9 @@
     z-index: 2;
 }
 
-/* Hover effect for non-active items */
+/* Hover effect simplified to maintain focus on active selection */
 .navItem:hover {
-    font-weight: 500;
-    opacity: 1;
-    background: rgba(255, 255, 255, 0.1);
+    opacity: 0.9;
 }
 
 .active {

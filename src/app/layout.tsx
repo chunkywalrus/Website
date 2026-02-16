@@ -29,6 +29,7 @@ export const metadata: Metadata = {
 
 import Navbar from "@/components/Navbar";
 import Cursor from "@/components/Cursor";
+import { InteractionProvider } from "@/context/InteractionContext";
 
 export default function RootLayout({
   children,
@@ -38,9 +39,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${ibmPlexMono.variable} ${caveat.variable} antialiased`}>
       <body>
-        <Cursor />
-        <Navbar />
-        {children}
+        <InteractionProvider>
+          <Cursor />
+          <Navbar />
+          {children}
+        </InteractionProvider>
       </body>
     </html>
   );

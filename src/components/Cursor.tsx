@@ -2,10 +2,20 @@
 
 import { motion, useMotionValue } from "framer-motion";
 import { useEffect } from "react";
+import { useInteraction } from "../context/InteractionContext";
 
 export default function Cursor() {
     const cursorX = useMotionValue(-100);
     const cursorY = useMotionValue(-100);
+    const { isNavMerged, cursorOverride } = useInteraction();
+
+    // Snap cursor position if override is provided (e.g. from keyboard nav)
+    useEffect(() => {
+        if (cursorOverride) {
+            cursorX.set(cursorOverride.x - 10);
+            cursorY.set(cursorOverride.y - 10);
+        }
+    }, [cursorOverride, cursorX, cursorY]);
 
     useEffect(() => {
         const moveCursor = (e: MouseEvent) => {
@@ -23,6 +33,11 @@ export default function Cursor() {
     return (
         <>
             <motion.div
+                animate={{
+                    opacity: isNavMerged ? 0 : 1,
+                    scale: isNavMerged ? 0.5 : 1,
+                }}
+                transition={{ duration: 0.2 }}
                 style={{
                     position: "fixed",
                     left: 0,
