@@ -59,9 +59,6 @@ export default function Cursor() {
                     backdropFilter: hoveredEffectBounds
                         ? "blur(12px) saturate(150%) contrast(1.1)" // Navbar pill blur
                         : "blur(0px) saturate(180%) contrast(1.2) url(#cursor-distortion)",
-                    WebkitBackdropFilter: hoveredEffectBounds
-                        ? "blur(12px) saturate(150%) contrast(1.1)"
-                        : "blur(0px) saturate(180%) contrast(1.2)",
                     border: hoveredEffectBounds
                         ? "1px solid rgba(255, 255, 255, 0.4)"
                         : "1px solid rgba(255, 255, 255, 0.5)",
