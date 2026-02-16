@@ -2,6 +2,7 @@ import Link from "next/link";
 import styles from "./page.module.css";
 import PageWrapper from "@/components/PageWrapper";
 import Socials from "@/components/Socials";
+import HighlightLink from "@/components/HighlightLink";
 
 export default function Home() {
   return (
@@ -15,23 +16,23 @@ export default function Home() {
         I&apos;m currently at Claremont McKenna doubling down on Econ and Math.
         Most of my brain space is occupied by the world of quant and commodity
         trading, but I&apos;m also a big fan of building random, fun CS side{" "}
-        <Link href="/projects" className="highlight hover:underline">
+        <HighlightLink href="/projects" className="highlight">
           projects
-        </Link>
+        </HighlightLink>
         .
       </p>
 
       <p className={styles.bio}>
         When I&apos;m not staring at a terminal or a spreadsheet, I&apos;m
         probably out on a long{" "}
-        <Link href="/run-log" className="highlight hover:underline">
+        <HighlightLink href="/run-log" className="highlight">
           run
-        </Link>
+        </HighlightLink>
         . I&apos;m a big marathon junkie and constantly in a cycle of training
         for the next 26.2. To cool down, I&apos;m usually deep-diving into{" "}
-        <Link href="/movies" className="highlight hover:underline">
+        <HighlightLink href="/movies" className="highlight">
           movies
-        </Link>
+        </HighlightLink>
         ; I&apos;ll watch anything from obscure A24 indies to the classics.
       </p>
 

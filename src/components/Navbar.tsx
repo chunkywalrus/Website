@@ -25,11 +25,30 @@ export default function Navbar() {
 
     // Optimistic UI state for instant feedback
     const [activePath, setActivePath] = useState(pathname);
+    const [pillStyle, setPillStyle] = useState({ left: 0, top: 0, width: 0, height: 0, opacity: 0 });
 
     // Sync state with router (e.g. back/forward button)
     useEffect(() => {
         setActivePath(pathname);
     }, [pathname]);
+
+    // Update pill position whenever active path changes
+    useEffect(() => {
+        if (!navRef.current) return;
+
+        const target = navRef.current.querySelector<HTMLAnchorElement>(`a[href="${activePath}"]`);
+        if (target) {
+            setPillStyle({
+                left: target.offsetLeft,
+                top: target.offsetTop,
+                width: target.offsetWidth,
+                height: target.offsetHeight,
+                opacity: 1
+            });
+        } else {
+            setPillStyle(prev => ({ ...prev, opacity: 0 }));
+        }
+    }, [activePath]);
 
     // Handle Keyboard Navigation
     useEffect(() => {
@@ -77,6 +96,9 @@ export default function Navbar() {
                 className={`${styles.nav} glass`}
                 onMouseLeave={() => setNavMerged(false)}
             >
+                {/* Navbar Glass Background */}
+                <div className={styles.navBackground} />
+
                 {navItems.map((item) => {
                     const isActive = activePath === item.path;
 
@@ -100,41 +122,40 @@ export default function Navbar() {
                             <span style={{ position: "relative", zIndex: 10 }}>
                                 {item.name}
                             </span>
-                            {isActive && (
-                                <motion.div
-                                    className={styles.activeBackground}
-                                    layoutId="navbar-active"
-                                    transition={{
-                                        type: "spring",
-                                        stiffness: 380,
-                                        damping: 30,
-                                    }}
-                                />
-                            )}
                         </Link>
                     );
                 })}
+                {/* Active Pill (Manual Positioning) */}
+                <motion.div
+                    className={styles.activeBackground}
+                    animate={pillStyle}
+                    transition={{
+                        type: "spring",
+                        stiffness: 300,
+                        damping: 30,
+                    }}
+                />
             </nav>
 
             {/* SVG Filter for Liquid Distortion */}
-            <svg style={{ position: "absolute", width: 0, height: 0, pointerEvents: "none" }}>
+            <svg style={{ position: "absolute", width: "1px", height: "1px", left: "-9999px", pointerEvents: "none" }}>
                 <defs>
                     <filter id="liquid-glass-distortion">
                         <feTurbulence
                             type="fractalNoise"
-                            baseFrequency="0.02 0.05"
+                            baseFrequency="0.1"
                             numOctaves="2"
                             result="noise"
                             seed="1"
                         >
                             <animate
                                 attributeName="baseFrequency"
-                                values="0.02 0.05; 0.03 0.07; 0.02 0.05"
+                                values="0.1; 0.15; 0.1"
                                 dur="10s"
                                 repeatCount="indefinite"
                             />
                         </feTurbulence>
-                        <feDisplacementMap in="SourceGraphic" in2="noise" scale="15" xChannelSelector="R" yChannelSelector="G" />
+                        <feDisplacementMap in="SourceGraphic" in2="noise" scale="10" xChannelSelector="R" yChannelSelector="G" />
                     </filter>
                 </defs>
             </svg>

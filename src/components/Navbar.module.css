@@ -18,14 +18,22 @@
     padding: 0.5rem 0.6rem;
     /* Slightly more padding */
     border-radius: 9999px;
+    position: relative;
     pointer-events: auto;
-    /* Glass effect handled by global .glass */
-    /* Enhance nav specifically */
+}
+
+.navBackground {
+    position: absolute;
+    inset: 0;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(0px) saturate(180%) contrast(1.2) url(#liquid-glass-distortion);
+    -webkit-backdrop-filter: blur(0px) saturate(180%) contrast(1.2);
     border: 1px solid rgba(255, 255, 255, 0.3);
-    background: rgba(255, 255, 255, 0.05);
     box-shadow:
         0 8px 32px rgba(0, 0, 0, 0.1),
         inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+    z-index: 0;
 }
 
 .navItem {

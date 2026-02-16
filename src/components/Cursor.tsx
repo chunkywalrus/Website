@@ -7,20 +7,32 @@ import { useInteraction } from "../context/InteractionContext";
 export default function Cursor() {
     const cursorX = useMotionValue(-100);
     const cursorY = useMotionValue(-100);
-    const { isNavMerged, cursorOverride } = useInteraction();
+    const { isNavMerged, cursorOverride, hoveredEffectBounds } = useInteraction();
 
     // Snap cursor position if override is provided (e.g. from keyboard nav)
     useEffect(() => {
         if (cursorOverride) {
-            cursorX.set(cursorOverride.x - 10);
-            cursorY.set(cursorOverride.y - 10);
+            cursorX.set(cursorOverride.x);
+            cursorY.set(cursorOverride.y);
         }
     }, [cursorOverride, cursorX, cursorY]);
 
+    // Update cursor position based on mouse or hover state
+    useEffect(() => {
+        if (hoveredEffectBounds) {
+            // Snap to the center of the hovered element
+            cursorX.set(hoveredEffectBounds.left + hoveredEffectBounds.width / 2);
+            cursorY.set(hoveredEffectBounds.top + hoveredEffectBounds.height / 2);
+        }
+    }, [hoveredEffectBounds, cursorX, cursorY]);
+
     useEffect(() => {
         const moveCursor = (e: MouseEvent) => {
-            cursorX.set(e.clientX - 10); // Center the 20px cursor
-            cursorY.set(e.clientY - 10);
+            // Only follow mouse if NOT hovering a special link
+            if (!hoveredEffectBounds) {
+                cursorX.set(e.clientX);
+                cursorY.set(e.clientY);
+            }
         };
 
         window.addEventListener("mousemove", moveCursor);
@@ -28,7 +40,7 @@ export default function Cursor() {
         return () => {
             window.removeEventListener("mousemove", moveCursor);
         };
-    }, [cursorX, cursorY]);
+    }, [cursorX, cursorY, hoveredEffectBounds]);
 
     return (
         <>
@@ -36,23 +48,37 @@ export default function Cursor() {
                 animate={{
                     opacity: isNavMerged ? 0 : 1,
                     scale: isNavMerged ? 0.5 : 1,
+                    width: hoveredEffectBounds ? hoveredEffectBounds.width + 20 : 20,
+                    height: hoveredEffectBounds ? hoveredEffectBounds.height + 10 : 20,
+                    x: "-50%",
+                    y: "-50%",
+                    borderRadius: hoveredEffectBounds ? 30 : "50%",
+                    background: hoveredEffectBounds
+                        ? "rgba(238, 191, 91, 0.4)" // Navbar pill color
+                        : "rgba(238, 191, 91, 0.5)",
+                    backdropFilter: hoveredEffectBounds
+                        ? "blur(12px) saturate(150%) contrast(1.1)" // Navbar pill blur
+                        : "blur(0px) saturate(180%) contrast(1.2) url(#cursor-distortion)",
+                    WebkitBackdropFilter: hoveredEffectBounds
+                        ? "blur(12px) saturate(150%) contrast(1.1)"
+                        : "blur(0px) saturate(180%) contrast(1.2)",
+                    border: hoveredEffectBounds
+                        ? "1px solid rgba(255, 255, 255, 0.4)"
+                        : "1px solid rgba(255, 255, 255, 0.5)",
+                    boxShadow: hoveredEffectBounds
+                        ? "0 4px 15px rgba(238, 191, 91, 0.3), inset 0 0 15px rgba(255, 255, 255, 0.3)"
+                        : "inset 0 0 8px rgba(255, 255, 255, 0.4), 0 4px 12px rgba(238, 191, 91, 0.3)",
                 }}
-                transition={{ duration: 0.2 }}
+                transition={{
+                    type: "spring",
+                    stiffness: 300,
+                    damping: 25,
+                    opacity: { duration: 0.2 }
+                }}
                 style={{
                     position: "fixed",
                     left: 0,
                     top: 0,
-                    width: "20px",
-                    height: "20px",
-                    borderRadius: "50%",
-
-                    // Orange Liquid Glass Effect
-                    background: "rgba(238, 191, 91, 0.5)",
-                    backdropFilter: "blur(0px) saturate(180%) contrast(1.2) url(#cursor-distortion)",
-                    WebkitBackdropFilter: "blur(0px) saturate(180%) contrast(1.2)",
-                    border: "1px solid rgba(255, 255, 255, 0.5)",
-                    boxShadow: "inset 0 0 8px rgba(255, 255, 255, 0.4), 0 4px 12px rgba(238, 191, 91, 0.3)",
-
                     pointerEvents: "none",
                     zIndex: 9999,
                     translateX: cursorX,

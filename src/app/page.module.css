@@ -5,7 +5,7 @@
   padding-left: 1.5rem;
   padding-right: 1.5rem;
 
-  min-height: calc(100vh - 6rem);
+  min-height: calc(100vh - 7rem);
   display: flex;
   flex-direction: column;
   justify-content: center;
